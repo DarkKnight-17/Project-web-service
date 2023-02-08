@@ -1,0 +1,77 @@
+{% extends 'Main/base.html' %}
+
+
+
+
+{% block body %}
+ {% if page == 'register' %}
+
+<h3>Sign Up Page</h3>
+<br
+<div> 
+      <form method="post">
+            {% csrf_token %}
+            
+            {{ form.as_p }}
+            
+            
+            <input type="submit" value="Register"/>
+      </form> 
+      <br>
+   <p>Already have a profile?</p>
+   <a href="{% url 'login' %}">Login</a>
+</div>
+
+{% else %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+
+<form method="GET" action="{% url 'search' %}">
+    <label>What are you looking for?</label> 
+    <input type="text" name='q' placeholder="Search Cars..."/>
+</form>
+<hr>
+
+<div class="home-container">
+    
+    <div>
+        
+        <h2>Cars on the Sale:</h2>
+        
+        {% for el in all_cars %}
+        <div class="alert alert-warning mt-2">
+            <p>Имя Продавца: {{ el.user }}</p>
+            <p>Имя бренда: {{ el.Brand }}</p>
+            <p>Год выпуска: {{ el.year }}</p>
+            <p>Цена: {{ el.price }}</p>
+            {% if request.user == el.user %}
+                <a href="{% url 'update_car' el.id %}">Edit</a>
+                <a href="{% url 'delete_car' el.id %}">Delete</a>
+                {% endif %}
+                <hr>
+            </div>
+            
+            {% endfor %}
+        </div>
+        
+    </div>
+    
+    
+    {% endif %}
+    
+    {% endif %}
+    
+{% endblock %}
+
+<!-- class="alert alert-warning mt-2" -->
+<!-- Машины с пробегом  -->
+<!-- Автосалоны  -->
+<!-- Магазин запчастей  -->
+<!-- Запчасти  -->
+<!--Ремонт  -->
+<!-- Услуги -->
